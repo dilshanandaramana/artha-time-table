@@ -154,6 +154,7 @@
             justify-content: center;
             align-items: center;
             box-shadow: var(--shadow);
+            position: relative;
         }
 
         .grade-main {
@@ -309,26 +310,84 @@
             }
         }
 
+        /* Mobile Optimization */
         @media (max-width: 768px) {
             .schedule-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 0; /* Gap handled by margins */
             }
-            
-            .grade-label {
+
+            /* Hide the main top headers on mobile */
+            .day-header {
                 display: none;
             }
-            
-            .day-cell {
-                border-left: 4px solid var(--primary);
+
+            /* Make Grade Labels sticky section headers */
+            .grade-label {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                margin-top: 24px;
+                margin-bottom: 12px;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                text-align: left;
+                background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+                border-radius: 8px;
             }
             
+            .grade-label:first-of-type {
+                margin-top: 0;
+            }
+
+            .grade-main {
+                font-size: 16px;
+                margin: 0;
+            }
+
+            .grade-sub {
+                background: rgba(255,255,255,0.2);
+                padding: 2px 8px;
+                border-radius: 4px;
+            }
+            
+            /* Hide empty cells completely to save space */
+            .day-cell.empty {
+                display: none;
+            }
+
+            /* Style filled cells as list items/cards */
+            .day-cell {
+                width: 100%;
+                min-height: auto;
+                margin-bottom: 12px;
+                border: 1px solid var(--border);
+                border-left-width: 5px; /* Thicker left border for emphasis */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            }
+
+            /* Inject the Day Name into the cell on mobile */
             .day-cell::before {
-                content: attr(data-grade);
+                content: attr(data-day);
+                display: block;
+                font-size: 12px;
                 font-weight: 700;
-                font-size: 14px;
-                color: var(--primary);
+                text-transform: uppercase;
+                color: var(--secondary);
                 margin-bottom: 8px;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 4px;
+            }
+            
+            .class-card {
+                margin-bottom: 8px;
+            }
+            
+            .class-card:last-child {
+                margin-bottom: 0;
             }
         }
     </style>
@@ -408,7 +467,7 @@
                     <div class="grade-main">Primary</div>
                     <div class="grade-sub">Grades 1-5</div>
                 </div>
-                <div class="day-cell" data-grade="Primary">
+                <div class="day-cell" data-grade="Primary" data-day="Monday">
                     <div class="class-card dancing">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Dancing (Gr 1-5)</div>
@@ -418,41 +477,41 @@
                         <div class="class-subject">Japanese (All Grades)</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Primary"></div>
-                <div class="day-cell empty" data-grade="Primary"></div>
-                <div class="day-cell empty" data-grade="Primary"></div>
-                <div class="day-cell" data-grade="Primary">
+                <div class="day-cell empty" data-grade="Primary" data-day="Tuesday"></div>
+                <div class="day-cell empty" data-grade="Primary" data-day="Wednesday"></div>
+                <div class="day-cell empty" data-grade="Primary" data-day="Thursday"></div>
+                <div class="day-cell" data-grade="Primary" data-day="Friday">
                     <div class="class-card other">
                         <div class="class-time">4:15 PM - 6:15 PM</div>
                         <div class="class-subject">Scholarship (Grade 4)</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Primary">
+                <div class="day-cell" data-grade="Primary" data-day="Saturday">
                     <div class="class-card other">
                         <div class="class-time">3:00 PM - 5:00 PM</div>
                         <div class="class-subject">Japanese</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Primary"></div>
+                <div class="day-cell empty" data-grade="Primary" data-day="Sunday"></div>
 
                 <!-- Grade 6 -->
                 <div class="grade-label">
                     <div class="grade-main">Grade 6</div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 6"></div>
-                <div class="day-cell" data-grade="Grade 6">
+                <div class="day-cell empty" data-grade="Grade 6" data-day="Monday"></div>
+                <div class="day-cell" data-grade="Grade 6" data-day="Tuesday">
                     <div class="class-card other">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Tamil</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 6">
+                <div class="day-cell" data-grade="Grade 6" data-day="Wednesday">
                     <div class="class-card sci">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 6">
+                <div class="day-cell" data-grade="Grade 6" data-day="Thursday">
                     <div class="class-card eng">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">English</div>
@@ -462,13 +521,13 @@
                         <div class="class-subject">History</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 6">
+                <div class="day-cell" data-grade="Grade 6" data-day="Friday">
                     <div class="class-card it">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">IT</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 6">
+                <div class="day-cell" data-grade="Grade 6" data-day="Saturday">
                     <div class="class-card maths">
                         <div class="class-time">2:00 PM - 4:00 PM</div>
                         <div class="class-subject">Mathematics</div>
@@ -478,28 +537,28 @@
                         <div class="class-subject">Sinhala</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 6"></div>
+                <div class="day-cell empty" data-grade="Grade 6" data-day="Sunday"></div>
 
                 <!-- Grade 7 -->
                 <div class="grade-label">
                     <div class="grade-main">Grade 7</div>
                 </div>
-                <div class="day-cell" data-grade="Grade 7">
+                <div class="day-cell" data-grade="Grade 7" data-day="Monday">
                     <div class="class-card maths">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Mathematics</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 7"></div>
-                <div class="day-cell" data-grade="Grade 7">
+                <div class="day-cell empty" data-grade="Grade 7" data-day="Tuesday"></div>
+                <div class="day-cell" data-grade="Grade 7" data-day="Wednesday">
                     <div class="class-card hist">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">History</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 7"></div>
-                <div class="day-cell empty" data-grade="Grade 7"></div>
-                <div class="day-cell" data-grade="Grade 7">
+                <div class="day-cell empty" data-grade="Grade 7" data-day="Thursday"></div>
+                <div class="day-cell empty" data-grade="Grade 7" data-day="Friday"></div>
+                <div class="day-cell" data-grade="Grade 7" data-day="Saturday">
                     <div class="class-card maths">
                         <div class="class-time">10:00 AM - 12:00 PM</div>
                         <div class="class-subject">Mathematics</div>
@@ -509,7 +568,7 @@
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 7">
+                <div class="day-cell" data-grade="Grade 7" data-day="Sunday">
                     <div class="class-card it">
                         <div class="class-time">1:00 PM - 3:00 PM</div>
                         <div class="class-subject">IT</div>
@@ -528,8 +587,8 @@
                 <div class="grade-label">
                     <div class="grade-main">Grade 8</div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 8"></div>
-                <div class="day-cell" data-grade="Grade 8">
+                <div class="day-cell empty" data-grade="Grade 8" data-day="Monday"></div>
+                <div class="day-cell" data-grade="Grade 8" data-day="Tuesday">
                     <div class="class-card hist">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">History</div>
@@ -539,21 +598,21 @@
                         <div class="class-subject">English</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 8"></div>
-                <div class="day-cell" data-grade="Grade 8">
+                <div class="day-cell empty" data-grade="Grade 8" data-day="Wednesday"></div>
+                <div class="day-cell" data-grade="Grade 8" data-day="Thursday">
                     <div class="class-card other">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Tamil</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 8"></div>
-                <div class="day-cell" data-grade="Grade 8">
+                <div class="day-cell empty" data-grade="Grade 8" data-day="Friday"></div>
+                <div class="day-cell" data-grade="Grade 8" data-day="Saturday">
                     <div class="class-card sci">
                         <div class="class-time">1:00 PM - 3:00 PM</div>
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 8">
+                <div class="day-cell" data-grade="Grade 8" data-day="Sunday">
                     <div class="class-card sin">
                         <div class="class-time">1:00 PM - 3:00 PM</div>
                         <div class="class-subject">Sinhala</div>
@@ -576,8 +635,8 @@
                 <div class="grade-label">
                     <div class="grade-main">Grade 9</div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 9"></div>
-                <div class="day-cell" data-grade="Grade 9">
+                <div class="day-cell empty" data-grade="Grade 9" data-day="Monday"></div>
+                <div class="day-cell" data-grade="Grade 9" data-day="Tuesday">
                     <div class="class-card sin">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Sinhala</div>
@@ -587,8 +646,8 @@
                         <div class="class-subject">History</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 9"></div>
-                <div class="day-cell" data-grade="Grade 9">
+                <div class="day-cell empty" data-grade="Grade 9" data-day="Wednesday"></div>
+                <div class="day-cell" data-grade="Grade 9" data-day="Thursday">
                     <div class="class-card it">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">IT</div>
@@ -598,20 +657,20 @@
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 9"></div>
-                <div class="day-cell" data-grade="Grade 9">
+                <div class="day-cell empty" data-grade="Grade 9" data-day="Friday"></div>
+                <div class="day-cell" data-grade="Grade 9" data-day="Saturday">
                     <div class="class-card maths">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Mathematics</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 9"></div>
+                <div class="day-cell empty" data-grade="Grade 9" data-day="Sunday"></div>
 
                 <!-- Grade 10 -->
                 <div class="grade-label">
                     <div class="grade-main">Grade 10</div>
                 </div>
-                <div class="day-cell" data-grade="Grade 10">
+                <div class="day-cell" data-grade="Grade 10" data-day="Monday">
                     <div class="class-card eng">
                         <div class="class-time">6:30 PM - 8:30 PM</div>
                         <div class="class-subject">English</div>
@@ -621,7 +680,7 @@
                         <div class="class-subject">Dancing</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 10">
+                <div class="day-cell" data-grade="Grade 10" data-day="Tuesday">
                     <div class="class-card sin">
                         <div class="class-time">6:00 PM - 8:00 PM</div>
                         <div class="class-subject">Sinhala Literature</div>
@@ -631,7 +690,7 @@
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 10">
+                <div class="day-cell" data-grade="Grade 10" data-day="Wednesday">
                     <div class="class-card eng">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">English</div>
@@ -641,8 +700,8 @@
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="Grade 10"></div>
-                <div class="day-cell" data-grade="Grade 10">
+                <div class="day-cell empty" data-grade="Grade 10" data-day="Thursday"></div>
+                <div class="day-cell" data-grade="Grade 10" data-day="Friday">
                     <div class="class-card sin">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Sinhala</div>
@@ -652,13 +711,13 @@
                         <div class="class-subject">History</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 10">
+                <div class="day-cell" data-grade="Grade 10" data-day="Saturday">
                     <div class="class-card maths">
                         <div class="class-time">12:00 PM - 2:00 PM</div>
                         <div class="class-subject">Mathematics</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="Grade 10">
+                <div class="day-cell" data-grade="Grade 10" data-day="Sunday">
                     <div class="class-card it">
                         <div class="class-time">3:00 PM - 5:00 PM</div>
                         <div class="class-subject">IT</div>
@@ -674,7 +733,7 @@
                     <div class="grade-main">O/L</div>
                     <div class="grade-sub">Grade 11</div>
                 </div>
-                <div class="day-cell" data-grade="O/L">
+                <div class="day-cell" data-grade="O/L" data-day="Monday">
                     <div class="class-card it">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">ICT</div>
@@ -684,13 +743,13 @@
                         <div class="class-subject">Dancing</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="O/L">
+                <div class="day-cell" data-grade="O/L" data-day="Tuesday">
                     <div class="class-card sci">
                         <div class="class-time">6:30 PM - 9:00 PM</div>
                         <div class="class-subject">Science</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="O/L">
+                <div class="day-cell" data-grade="O/L" data-day="Wednesday">
                     <div class="class-card hist">
                         <div class="class-time">6:00 PM - 8:00 PM</div>
                         <div class="class-subject">History</div>
@@ -700,8 +759,8 @@
                         <div class="class-subject">Paper Class</div>
                     </div>
                 </div>
-                <div class="day-cell empty" data-grade="O/L"></div>
-                <div class="day-cell" data-grade="O/L">
+                <div class="day-cell empty" data-grade="O/L" data-day="Thursday"></div>
+                <div class="day-cell" data-grade="O/L" data-day="Friday">
                     <div class="class-card sci">
                         <div class="class-time">4:00 PM - 6:00 PM</div>
                         <div class="class-subject">Science</div>
@@ -711,13 +770,13 @@
                         <div class="class-subject">Sinhala</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="O/L">
+                <div class="day-cell" data-grade="O/L" data-day="Saturday">
                     <div class="class-card hist">
                         <div class="class-time">8:00 AM - 10:00 AM</div>
                         <div class="class-subject">History</div>
                     </div>
                 </div>
-                <div class="day-cell" data-grade="O/L">
+                <div class="day-cell" data-grade="O/L" data-day="Sunday">
                     <div class="class-card eng">
                         <div class="class-time">5:00 PM - 7:00 PM</div>
                         <div class="class-subject">English</div>
